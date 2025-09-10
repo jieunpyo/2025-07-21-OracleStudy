@@ -12,6 +12,7 @@ public class BoardUpdate extends JPanel implements ActionListener{
 	JPasswordField pf;
 	JButton b1,b2;
 	private BoardMainFrame bm;
+	int no=0;
 	public BoardUpdate(BoardMainFrame bm)
 	{
 		this.bm=bm;
@@ -103,16 +104,35 @@ public class BoardUpdate extends JPanel implements ActionListener{
 			vo.setContent(content);
 			vo.setSubject(subject);
 			vo.setPwd(pwd);
+			vo.setNo(no);
 			
 			BoardDAO dao=BoardDAO.newInstance();
-			dao.boardInsert(vo);
-			
-			bm.card.show(bm.getContentPane(), "list");
-			bm.bList.print();
+			boolean bCheck=dao.boardUpdate(vo);
+			if(bCheck==false)
+			{
+				JOptionPane.showMessageDialog(this, "비밀번호가 틀립니다");
+				pf.setText("");
+				pf.requestFocus();
+			}
+			else
+			{
+				bm.card.show(bm.getContentPane(), "detail");
+				bm.bDetail.print(no);
+			}
 		}
 		else if(e.getSource()==b2)
 		{
-			bm.card.show(bm.getContentPane(), "list");
+			bm.card.show(bm.getContentPane(), "detail");
+			bm.bDetail.print(no);
 		}
+	}
+	public void print(int no)
+	{
+		this.no=no;
+		BoardDAO dao=BoardDAO.newInstance();
+		BoardVO vo=dao.boardUpdateData(no);
+		tf1.setText(vo.getName());
+		tf2.setText(vo.getSubject());
+		ta.setText(vo.getContent());
 	}
 }

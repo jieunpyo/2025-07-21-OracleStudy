@@ -199,6 +199,75 @@ public class BoardDAO {
 	   return vo;
    }
    // 4. 수정 : UPDATE
+   public BoardVO boardUpdateData(int no)
+   {
+	   BoardVO vo=new BoardVO(); // 게시물 한개에 대한 모든 정보 
+	   try
+	   {
+		   getConnection();
+		   String sql="SELECT no,name,subject,content "
+			  +"FROM board "
+			  +"WHERE no=?";
+		   ps=conn.prepareStatement(sql);
+		   ps.setInt(1, no);
+		   ResultSet rs=ps.executeQuery();
+		   rs.next();
+		   vo.setNo(rs.getInt(1));
+		   vo.setName(rs.getString(2));
+		   vo.setSubject(rs.getString(3));
+		   vo.setContent(rs.getString(4));
+		   
+		   rs.close();
+	   }catch(Exception ex)
+	   {
+		   ex.printStackTrace();
+	   }
+	   finally
+	   {
+		   disConnection();
+	   }
+	   return vo;
+   }
+   // 4-1 실제 수정
+   public boolean boardUpdate(BoardVO vo)
+   {
+	   boolean bCheck=false;
+	   try
+	   {
+		   getConnection();
+		   String sql="SELECT pwd FROM board WHERE no=?";
+		   ps=conn.prepareStatement(sql);
+		   ps.setInt(1, vo.getNo());
+		   ResultSet rs=ps.executeQuery();
+		   rs.next();
+		   String db_pwd=rs.getString(1);
+		   rs.close();
+		   
+		   if(db_pwd.equals(vo.getPwd())) // 비밀번호가 같은 경우 
+		   {
+			   bCheck=true;
+			   sql="UPDATE board SET "
+				  +"name=? , subject=? , content=? "
+				  +"WHERE no=?";
+			   ps=conn.prepareStatement(sql);
+			   ps.setString(1, vo.getName());
+			   ps.setString(2, vo.getSubject());
+			   ps.setString(3, vo.getContent());
+			   ps.setInt(4, vo.getNo());
+			   ps.executeUpdate();
+		   }
+		   
+	   }catch(Exception ex)
+	   {
+		   ex.printStackTrace();
+	   }
+	   finally
+	   {
+		   disConnection();
+	   }
+	   
+	   return bCheck;
+   }
    // 5. 삭제 : DELETE
    public boolean boardDelete(int no,String pwd)
    {

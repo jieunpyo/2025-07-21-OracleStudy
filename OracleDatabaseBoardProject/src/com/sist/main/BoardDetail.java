@@ -139,6 +139,12 @@ public class BoardDetail extends JPanel implements ActionListener{
 				pf.requestFocus();
 			}
 		}
+		else if(e.getSource()==b1)// 수정
+		{
+			String no=la_p1.getText();
+			bm.card.show(bm.getContentPane(), "update");
+			bm.bUpdate.print(Integer.parseInt(no));
+		}
 	}
 	public void print(int no)
 	{
