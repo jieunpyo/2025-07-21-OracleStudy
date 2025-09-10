@@ -160,8 +160,80 @@ public class BoardDAO {
 	   }
    }
    // 3. 상세보기 : SELECT => 조건 
+   public BoardVO boardDetailData(int no)
+   {
+	   BoardVO vo=new BoardVO(); // 게시물 한개에 대한 모든 정보 
+	   try
+	   {
+		   getConnection();
+		   String sql="UPDATE board SET "
+				   	 +"hit=hit+1 "
+				   	 +"WHERE no=?"; // 조회수 증가 
+		   ps=conn.prepareStatement(sql);
+		   ps.setInt(1, no);
+		   ps.executeUpdate();
+		   
+		   // 데이터 읽기
+		   sql="SELECT no,name,subject,content,TO_CHAR(regdate,'YYYY-MM-DD'),hit "
+			  +"FROM board "
+			  +"WHERE no=?";
+		   ps=conn.prepareStatement(sql);
+		   ps.setInt(1, no);
+		   ResultSet rs=ps.executeQuery();
+		   rs.next();
+		   vo.setNo(rs.getInt(1));
+		   vo.setName(rs.getString(2));
+		   vo.setSubject(rs.getString(3));
+		   vo.setContent(rs.getString(4));
+		   vo.setDbday(rs.getString(5));
+		   vo.setHit(rs.getInt(6));
+		   rs.close();
+	   }catch(Exception ex)
+	   {
+		   ex.printStackTrace();
+	   }
+	   finally
+	   {
+		   disConnection();
+	   }
+	   return vo;
+   }
    // 4. 수정 : UPDATE
    // 5. 삭제 : DELETE
+   public boolean boardDelete(int no,String pwd)
+   {
+	   boolean bCheck=false;
+	   try
+	   {
+		   getConnection();
+		   String sql="SELECT pwd FROM board WHERE no=?";
+		   ps=conn.prepareStatement(sql);
+		   ps.setInt(1, no);
+		   ResultSet rs=ps.executeQuery();
+		   rs.next();
+		   String db_pwd=rs.getString(1);
+		   rs.close();
+		   
+		   if(db_pwd.equals(pwd)) // 비밀번호가 같은 경우 
+		   {
+			   bCheck=true;
+			   sql="DELETE FROM board WHERE no=?";
+			   ps=conn.prepareStatement(sql);
+			   ps.setInt(1, no);
+			   ps.executeUpdate();
+		   }
+		   
+	   }catch(Exception ex)
+	   {
+		   ex.printStackTrace();
+	   }
+	   finally
+	   {
+		   disConnection();
+	   }
+	   
+	   return bCheck;
+   }
    // 6. 검색 : SELECT => LIKE / REGEXP_LIKE 
    
 }
