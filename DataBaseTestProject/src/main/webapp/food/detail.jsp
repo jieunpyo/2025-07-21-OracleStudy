@@ -1,9 +1,9 @@
-<%@page import="java.util.StringTokenizer"%>
+<%@ page import="java.util.StringTokenizer"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="com.sist.dao.*,com.sist.vo.*"%>
 <%--
     detail.jsp?fno=10
- --%>
+ --%> 
 <%
     String fno=request.getParameter("fno");
     FoodDAO2 dao=FoodDAO2.newInstance();
@@ -101,4 +101,4 @@
      </div>
    </div>
 </body>
-</html>
+</html> 
