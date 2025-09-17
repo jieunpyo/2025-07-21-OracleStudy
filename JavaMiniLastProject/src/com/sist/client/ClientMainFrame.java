@@ -9,9 +9,22 @@ implements ActionListener
 	ControllerPanel cp=new ControllerPanel();
 	Login login=new Login();
 	Join join=new Join();
+	JMenuItem genie;
+	JMenuItem melon;
+	JMenuItem user;
 	// has-a => 포함 클래스 
     public ClientMainFrame()
     {
+    	JMenuBar bar=new JMenuBar();
+    	JMenu menu1=new JMenu("기타");
+    	genie=new JMenuItem("지니뮤직");
+    	melon=new JMenuItem("멜론");
+    	user=new JMenuItem("개인");
+    	menu1.add(genie);
+    	menu1.add(melon);
+    	menu1.add(user);
+    	bar.add(menu1);
+    	setJMenuBar(bar);
     	setLayout(null);
     	menu.setBounds(200, 15,750 , 50);
     	cp.setBounds(10, 75,990, 580);
@@ -32,6 +45,11 @@ implements ActionListener
     	
     	join.b1.addActionListener(this); // 회원가입 
     	join.b2.addActionListener(this); // 취소 
+    	
+    	genie.addActionListener(this);
+    	
+    	// textfield / button / menuitem => ActionListener
+    	// table / label / image / panel => MouseListener
     }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -82,6 +100,10 @@ implements ActionListener
 		{
 			login.setVisible(true);
 			join.setVisible(false);
+		}
+		else if(e.getSource()==genie)
+		{
+			cp.card.show(cp, "GM");
 		}
 	}
 	
