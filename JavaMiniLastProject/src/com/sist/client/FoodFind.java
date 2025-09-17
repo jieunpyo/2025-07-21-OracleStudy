@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -85,6 +86,13 @@ public class FoodFind extends JPanel implements ActionListener,MouseListener{
      	table.getTableHeader().setReorderingAllowed(false);
      	table.getTableHeader().setResizingAllowed(false);
      	table.setRowHeight(30);
+     	//////////////
+     	DefaultTableCellRenderer centerRenderer = 
+     			new DefaultTableCellRenderer();
+     	centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+     	table.getColumnModel().getColumn(2).
+     	                 setCellRenderer(centerRenderer);
+     	/////////////////////
      	tf=new JTextField(10);
      	btn=new JButton("검색");
      	JPanel p=new JPanel();
