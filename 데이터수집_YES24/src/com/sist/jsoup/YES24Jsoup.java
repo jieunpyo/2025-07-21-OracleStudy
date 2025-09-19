@@ -1,4 +1,4 @@
-package com.sist.jsoup;
+/*package com.sist.jsoup;
 import java.util.*;
 
 import org.jsoup.Jsoup;
@@ -83,3 +83,4 @@ public class YES24Jsoup {
 	 jsoup.yes24DataCollection();
 		}
 	}
+*/

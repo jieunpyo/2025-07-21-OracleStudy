@@ -46,6 +46,7 @@ implements ActionListener
     	menu.b5.addActionListener(this);
     	menu.b6.addActionListener(this);
     	menu.b3.addActionListener(this);
+    	menu.b2.addActionListener(this);
     	
     	login.b1.addActionListener(this); // 로그인 
     	login.b2.addActionListener(this); // 회원가입 
@@ -71,14 +72,13 @@ implements ActionListener
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
 				if(e.getSource()==post.table)
 				{
 					if(e.getClickCount()==2)
 					{
 						int row=post.table.getSelectedRow();
-						String zip=post.model.getValueAt(row, 0).toString();
-						String addr=post.model.getValueAt(row, 1).toString();
+						String zip=post.model.getValueAt(row,0).toString();
+						String addr=post.model.getValueAt(row,1).toString();
 						
 						join.tf3.setText(zip);
 						join.tf4.setText(addr);
@@ -107,6 +107,11 @@ implements ActionListener
 		{
 			cp.card.show(cp, "HF");
 		}
+		else if(e.getSource()==menu.b2)
+		{
+			cp.card.show(cp, "MF");
+			cp.mf.print();
+		}
 		else if(e.getSource()==menu.b3)
 		{
 			cp.card.show(cp, "FF");
@@ -119,6 +124,48 @@ implements ActionListener
 		{
 			cp.card.show(cp, "BF");
 		}
+		else if(e.getSource()==login.b1)
+		{
+			String id=login.tf.getText();
+			if(id.trim().length()<1)
+			{
+				login.tf.requestFocus();
+				return;
+			}
+			String pwd=new String(login.pf.getPassword());
+			if(pwd.trim().length()<1)
+			{
+				login.pf.requestFocus();
+				return;
+			}
+			
+			MemberDAO dao=MemberDAO.newInstance();
+			MemberVO vo=dao.isLogin(id, pwd);
+			
+			if(vo.getMsg().equals("NOID"))
+			{
+				JOptionPane.showMessageDialog(this, 
+						"아이디가 존재하지 않습니다");
+				login.tf.setText("");
+				login.pf.setText("");
+				login.tf.requestFocus();
+			}
+			else if(vo.getMsg().equals("NOPWD"))
+			{
+				JOptionPane.showMessageDialog(this, 
+						"비밀번호가 틀립니다");
+				login.pf.setText("");
+				login.pf.requestFocus();
+			}
+			else
+			{
+				login.setVisible(false);
+				setVisible(true);
+				setTitle(vo.getName());
+				cp.myId=id;
+			}
+			
+		}
 		else if(e.getSource()==login.b2)
 		{
 			login.setVisible(false);
@@ -126,10 +173,10 @@ implements ActionListener
 		}
 		else if(e.getSource()==login.b3)
 		{
-			//dispose();
-			//System.exit(0);
-			setVisible(true);
-			login.setVisible(false);
+			dispose();
+			System.exit(0);
+			//setVisible(true);
+			//login.setVisible(false);
 		}
 		else if(e.getSource()==join.b3)
 		{
@@ -142,7 +189,7 @@ implements ActionListener
 			String id=join.tf1.getText();
 			if(id.trim().length()<1)
 			{
-				JOptionPane.showMessageDialog(this,
+				JOptionPane.showMessageDialog(this, 
 						"중복체크를 하세요");
 				return;
 			}
@@ -178,12 +225,12 @@ implements ActionListener
 			int res=dao.memberJoin(vo);
 			if(res==0)
 			{
-				JOptionPane.showMessageDialog(this,
+				JOptionPane.showMessageDialog(this, 
 						"회원가입에 실패하셨습니다");
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(this,
+				JOptionPane.showMessageDialog(this, 
 						"회원가입을 축하합니다");
 				join.setVisible(false);
 				login.setVisible(true);
@@ -191,8 +238,8 @@ implements ActionListener
 		}
 		else if(e.getSource()==join.b2)
 		{
-			dispose();
-			System.exit(0);
+			login.setVisible(true);
+			join.setVisible(false);
 		}
 		else if(e.getSource()==join.b4)
 		{
