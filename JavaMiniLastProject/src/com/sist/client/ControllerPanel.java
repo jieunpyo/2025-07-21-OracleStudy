@@ -9,6 +9,7 @@ public class ControllerPanel extends JPanel{
     FoodDetail fd;
     GenieMusic gm;
     MyPageForm mf;
+    NaverNewsFind nn;
     CardLayout card=new CardLayout();
     String myId;
     public ControllerPanel()
@@ -19,6 +20,7 @@ public class ControllerPanel extends JPanel{
     	fd=new FoodDetail(this);
     	gm=new GenieMusic(this);
     	mf=new MyPageForm(this);
+    	nn=new NaverNewsFind(this);
     	setLayout(card);
     	
     	add("HF",hf);
@@ -28,5 +30,6 @@ public class ControllerPanel extends JPanel{
     	add("FD",fd);
     	add("GM",gm);
     	add("MF",mf);
+    	add("NN",nn);
     }
 }

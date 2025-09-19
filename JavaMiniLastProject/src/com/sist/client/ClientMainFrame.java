@@ -47,6 +47,7 @@ implements ActionListener
     	menu.b6.addActionListener(this);
     	menu.b3.addActionListener(this);
     	menu.b2.addActionListener(this);
+    	menu.b7.addActionListener(this);
     	
     	login.b1.addActionListener(this); // 로그인 
     	login.b2.addActionListener(this); // 회원가입 
@@ -95,7 +96,7 @@ implements ActionListener
 		try
 		{
 			//                                         hifi  HiFiLook~
-			UIManager.setLookAndFeel("com.jtattoo.plaf.mcwin.McWinLookAndFeel");
+			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
 		}catch(Exception e) {}
         new ClientMainFrame();// 생성자 호출 
         // ClientMainFrame c=new ClientMainFrame();
@@ -123,6 +124,11 @@ implements ActionListener
 		else if(e.getSource()==menu.b6)
 		{
 			cp.card.show(cp, "BF");
+		}
+		else if(e.getSource()==menu.b7)
+		{
+			cp.card.show(cp, "NN");
+			cp.nn.newsPrint("맛집");
 		}
 		else if(e.getSource()==login.b1)
 		{
